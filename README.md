@@ -1,27 +1,35 @@
-# 1v1 卡牌遊戲勝率與分數模擬器 (1v1 Card Game Win Rate & Score Simulator)
+# 1v1 勝率與分數模擬器
 
-本專案使用 Python 腳本模擬一對一卡牌遊戲的結果，並基於輸入的參數（如牌組強度、玩家技術、和局率等）計算勝率和總得分的統計數據與機率分佈。
+這個專案已改寫成可直接部署到 GitHub Pages 的靜態網頁版。原本的 `win_rate_calculator.py` 仍保留作為 Python/Tkinter 版本參考。
 
 ## 功能
 
-* **統計計算**: 根據輸入參數計算單場遊戲的勝、負、和機率。
-* **結果預測**: 計算在大量對局後，平均玩家、最幸運玩家 (+3σ) 和最倒楣玩家 (-3σ) 的預期勝率與總得分。
-* **機率分佈繪圖**:
-    * 使用常態分佈近似，繪製 **最終勝率** 的機率密度分佈曲線圖。
-    * 使用常態分佈近似，繪製 **最終總得分** 的機率密度分佈曲線圖。
-* **參數可配置**: 可在 Python 腳本開頭輕鬆修改遊戲場數、分數設定、強度評比與影響佔比等參數。
+- 輸入總局數、平手率、勝利/失敗/平手分數。
+- 設定牌組強度、牌組影響、技術強度、技術影響。
+- 即時計算平均勝率、平均總分、單局期望、勝/敗/平機率。
+- 顯示勝率與總分的 +/-3σ 區間。
+- 使用 Canvas 繪製勝率與總分的常態累積分布圖。
 
-## 需求
+## 本機使用
 
-* Python 3.x
-* 必要的 Python 函式庫:
-    * `numpy`
-    * `scipy`
-    * `matplotlib`
+直接用瀏覽器開啟 `index.html` 即可，不需要安裝套件。
 
-## 安裝依賴套件
+## GitHub Pages 部署
 
-您可以使用 `pip` 和提供的 `requirements.txt` 文件來安裝所需的函式庫：
+專案已包含 `.github/workflows/deploy-pages.yml`。推送到 `main` 或 `master` 後，GitHub Actions 會自動部署。
+
+第一次使用時請在 GitHub repository：
+
+1. 開啟 `Settings`。
+2. 進入 `Pages`。
+3. 在 `Build and deployment` 的 `Source` 選擇 `GitHub Actions`。
+4. 推送程式碼後，到 `Actions` 查看 `Deploy GitHub Pages` workflow。
+
+## Python 版本
+
+若仍要執行舊版桌面程式：
 
 ```bash
 pip install -r requirements.txt
+python win_rate_calculator.py
+```

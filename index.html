@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>1v1 勝率與分數模擬器</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">1v1 Card Game Simulator</p>
+          <h1>勝率與分數模擬器</h1>
+          <p class="lede">輸入局數、平手率、勝負分數、牌組與技術影響，快速估算平均結果與 +/-3σ 的好壞運區間。</p>
+        </div>
+        <div class="summary-strip" aria-label="快速結果">
+          <div><span>平均勝率</span><strong id="heroWinRate">-</strong></div>
+          <div><span>平均總分</span><strong id="heroScore">-</strong></div>
+          <div><span>單局期望</span><strong id="heroPerGame">-</strong></div>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="計算器">
+        <form id="calculatorForm" class="panel inputs">
+          <div class="panel-heading">
+            <h2>參數</h2>
+            <button type="reset" class="ghost-button">重設</button>
+          </div>
+          <div class="field-grid">
+            <label><span>總局數 N</span><input name="numGames" type="number" min="1" step="1" value="1000" required></label>
+            <label><span>平手率 (%)</span><input name="drawRatio" type="number" min="0" max="100" step="0.1" value="2" required></label>
+            <label><span>勝利分數</span><input name="winScore" type="number" step="0.1" value="10" required></label>
+            <label><span>失敗分數</span><input name="lossScore" type="number" step="0.1" value="-10" required></label>
+            <label><span>平手分數</span><input name="drawScore" type="number" step="0.1" value="0" required></label>
+            <label><span>牌組強度 (%)</span><input name="deckStrength" type="number" min="0" max="100" step="0.1" value="100" required></label>
+            <label><span>牌組影響 (%)</span><input name="deckImpact" type="number" min="0" max="100" step="0.1" value="4" required></label>
+            <label><span>技術強度 (%)</span><input name="skillStrength" type="number" min="0" max="100" step="0.1" value="100" required></label>
+            <label><span>技術影響 (%)</span><input name="skillImpact" type="number" min="0" max="100" step="0.1" value="1" required></label>
+          </div>
+          <p id="warning" class="warning" hidden></p>
+        </form>
+
+        <section class="panel results" aria-label="結果">
+          <div class="panel-heading">
+            <h2>結果</h2>
+            <span class="badge" id="probabilityBadge">-</span>
+          </div>
+          <div class="result-grid">
+            <article><span>平均</span><strong id="avgWinRate">-</strong><p id="avgScore">-</p></article>
+            <article><span>+3σ 好運</span><strong id="luckyWinRate">-</strong><p id="luckyScore">-</p></article>
+            <article><span>-3σ 壞運</span><strong id="unluckyWinRate">-</strong><p id="unluckyScore">-</p></article>
+          </div>
+          <div class="details">
+            <div><span>勝 / 敗 / 平</span><strong id="probabilities">-</strong></div>
+            <div><span>勝率標準差</span><strong id="winStd">-</strong></div>
+            <div><span>總分標準差</span><strong id="scoreStd">-</strong></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="charts" aria-label="分布圖">
+        <article class="panel chart-panel">
+          <div class="panel-heading"><h2>勝率累積分布</h2><span>Normal CDF</span></div>
+          <canvas id="winRateChart" width="900" height="420"></canvas>
+        </article>
+        <article class="panel chart-panel">
+          <div class="panel-heading"><h2>總分累積分布</h2><span>Normal CDF</span></div>
+          <canvas id="scoreChart" width="900" height="420"></canvas>
+        </article>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
