@@ -12,6 +12,8 @@ const defaults = {
 
 const form = document.querySelector("#calculatorForm");
 const warning = document.querySelector("#warning");
+const themeToggle = document.querySelector("#themeToggle");
+const themeToggleText = document.querySelector("#themeToggleText");
 const els = {
   heroWinRate: document.querySelector("#heroWinRate"),
   heroScore: document.querySelector("#heroScore"),
@@ -134,6 +136,7 @@ function drawReference(ctx, pad, plotWidth, yForValue, value, color, label, form
 
 function drawChart(canvas, config) {
   const ctx = canvas.getContext("2d");
+  const theme = getComputedStyle(document.documentElement);
   const width = canvas.width;
   const height = canvas.height;
   const pad = { left: 78, right: 26, top: 28, bottom: 58 };
@@ -143,12 +146,12 @@ function drawChart(canvas, config) {
   const yForValue = (value) => pad.top + (1 - (value - config.min) / valueSpan) * plotHeight;
 
   ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = theme.getPropertyValue("--chart-bg").trim();
   ctx.fillRect(0, 0, width, height);
-  ctx.strokeStyle = "#d9e1d8";
+  ctx.strokeStyle = theme.getPropertyValue("--chart-grid").trim();
   ctx.lineWidth = 1;
   ctx.font = "14px Microsoft JhengHei, sans-serif";
-  ctx.fillStyle = "#69746d";
+  ctx.fillStyle = theme.getPropertyValue("--chart-text").trim();
 
   for (let i = 0; i <= 5; i++) {
     const x = pad.left + (plotWidth * i) / 5;
@@ -175,10 +178,10 @@ function drawChart(canvas, config) {
   }
   ctx.stroke();
 
-  drawReference(ctx, pad, plotWidth, yForValue, config.mean, "#1d2420", "平均", config.formatY);
-  drawReference(ctx, pad, plotWidth, yForValue, config.high, "#226f54", "+3σ", config.formatY);
-  drawReference(ctx, pad, plotWidth, yForValue, config.low, "#b13d4a", "-3σ", config.formatY);
-  ctx.fillStyle = "#1d2420";
+  drawReference(ctx, pad, plotWidth, yForValue, config.mean, theme.getPropertyValue("--chart-mean").trim(), "平均", config.formatY);
+  drawReference(ctx, pad, plotWidth, yForValue, config.high, theme.getPropertyValue("--chart-high").trim(), "+3σ", config.formatY);
+  drawReference(ctx, pad, plotWidth, yForValue, config.low, theme.getPropertyValue("--chart-low").trim(), "-3σ", config.formatY);
+  ctx.fillStyle = theme.getPropertyValue("--chart-mean").trim();
   ctx.font = "600 15px Microsoft JhengHei, sans-serif";
   ctx.fillText("累積機率", pad.left + plotWidth / 2 - 28, height - 14);
 }
@@ -232,6 +235,20 @@ function update() {
   }
 }
 
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const isDark = theme === "dark";
+  themeToggle.setAttribute("aria-pressed", String(isDark));
+  themeToggleText.textContent = isDark ? "晚上模式" : "白天模式";
+  localStorage.setItem("winRateTheme", theme);
+}
+
+function getInitialTheme() {
+  const savedTheme = localStorage.getItem("winRateTheme");
+  if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
 form.addEventListener("input", update);
 form.addEventListener("reset", () => {
   requestAnimationFrame(() => {
@@ -239,4 +256,9 @@ form.addEventListener("reset", () => {
     update();
   });
 });
+themeToggle.addEventListener("click", () => {
+  applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+  update();
+});
+applyTheme(getInitialTheme());
 update();
