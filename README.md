@@ -10,6 +10,16 @@
 - 顯示勝率與總分的 +/-3σ 區間。
 - 使用 Canvas 繪製勝率與總分的常態累積分布圖。
 
+## 畫面預覽
+
+### 電腦版
+
+![電腦版輸入參數並取得勝率結果](docs/screenshots/win-rate-desktop.png)
+
+### 手機版
+
+![手機版輸入參數並取得勝率結果](docs/screenshots/win-rate-mobile.png)
+
 ## 本機使用
 
 直接用瀏覽器開啟 `index.html` 即可，不需要安裝套件。
