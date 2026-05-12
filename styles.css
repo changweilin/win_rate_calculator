@@ -111,7 +111,9 @@ canvas { display: block; width: 100%; height: auto; aspect-ratio: 15 / 7; }
 }
 @media (max-width: 620px) {
   .app-shell { width: min(100% - 20px, 1180px); padding-top: 18px; }
-  .summary-strip, .field-grid, .result-grid { grid-template-columns: 1fr; }
+  .summary-strip, .result-grid { grid-template-columns: 1fr; }
+  .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .field-grid label { min-width: 0; }
   .summary-strip div { border-right: 0; border-bottom: 1px solid var(--line); }
   .summary-strip div:last-child { border-bottom: 0; }
   .details div { align-items: flex-start; flex-direction: column; }
