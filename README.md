@@ -18,7 +18,17 @@
 
 ### 手機版
 
-![手機版輸入參數並取得勝率結果](docs/screenshots/win-rate-mobile.png)
+#### 摘要
+
+![手機版摘要](docs/screenshots/win-rate-mobile-summary.png)
+
+#### 參數
+
+![手機版輸入參數](docs/screenshots/win-rate-mobile-parameters.png)
+
+#### 結果
+
+![手機版勝率結果](docs/screenshots/win-rate-mobile-results.png)
 
 ## 本機使用
 
